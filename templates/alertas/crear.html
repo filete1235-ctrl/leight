@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+            <div class="card-header" style="background:#3A506B;">
+                <h4 class="mb-0" style="color:#F4F4F4;">Crear Nueva Alerta</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label" style="color:#F4F4F4;">Descripción *</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" 
+                                  rows="3" required placeholder="Describa la alerta..."
+                                  style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;"></textarea>
+                    
+                    <div class="mb-3">
+                        <label for="nivel" class="form-label">Nivel de Alerta *</label>
+                        <select class="form-select" id="nivel" name="nivel" required>
+                            <option value="bajo">Bajo</option>
+                            <option value="medio" selected>Medio</option>
+                            <option value="alto">Alto</option>
+                        </select>
+                    </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nivel" class="form-label" style="color:#F4F4F4;">Nivel de Alerta *</label>
+                        <select class="form-select" id="nivel" name="nivel" required 
+                                style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                            <option value="bajo">Bajo</option>
+                            <option value="medio" selected>Medio</option>
+                            <option value="alto">Alto</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="visitante_id" class="form-label" style="color:#F4F4F4;">Asociar a Visitante (Opcional)</label>
+                        <select class="form-select" id="visitante_id" name="visitante_id" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                            <option value="">Seleccionar visitante...</option>
+                            {% for visitante in visitantes %}
+                            <option value="{{ visitante.id }}">{{ visitante.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Crear Alerta</button>
+                        <a href="{{ url_for('listar_alertas') }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">Crear Alerta</button>
+                            <a href="{{ url_for('listar_alertas') }}" class="btn btn-secondary" style="background:#3A506B;border-color:#3A506B;color:#F4F4F4;">Cancelar</a>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

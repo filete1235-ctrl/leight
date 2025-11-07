@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Reporte de Accesos {{ 'Diario' if tipo == 'diario' else 'Mensual' }}</h4>
+                <small class="text-muted">Generado: {{ now.strftime('%Y-%m-%d %H:%M') if now else '' }}</small>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="mb-2">Parámetros del Reporte</h6>
+                        <p class="mb-1"><strong>Tipo:</strong> {{ 'Diario' if tipo == 'diario' else 'Mensual' }}</p>
+                        <p class="mb-1"><strong>Período:</strong> {{ fecha_inicio }}{% if tipo == 'mensual' %} al {{ fecha_fin }}{% endif %}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="mb-2">Estadísticas</h6>
+                        <p class="mb-1"><strong>Total Accesos:</strong> {{ estadisticas.total_accesos }}</p>
+                        <p class="mb-1"><strong>Accesos Autorizados:</strong> {{ estadisticas.accesos_autorizados }}</p>
+                        <p class="mb-1"><strong>Accesos Denegados:</strong> {{ estadisticas.accesos_denegados }}</p>
+                        <p class="mb-1"><strong>Visitantes Únicos:</strong> {{ estadisticas.visitantes_unicos }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de Exportación -->
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{{ url_for('generar_reporte') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('exportar_reporte_csv') }}" class="btn btn-primary">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV
+                </a>
+                <a href="{{ url_for('exportar_reporte_pdf') }}" class="btn btn-primary">
+                    <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
+                </a>
+            </div>
+        </div>
+
+        <!-- Tabla de Accesos -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Fecha/Hora</th>
+                                <th>Visitante</th>
+                                <th>Tipo</th>
+                                <th>Autorizado</th>
+                                <th>Guardia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for acceso in accesos %}
+                            <tr>
+                                <td>{{ acceso.fecha_hora.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>{{ acceso.visitante or 'N/A' }}</td>
+                                <td>
+                                    {% if acceso.tipo == 'entrada' %}
+                                        <span class="badge badge-verde">{{ acceso.tipo }}</span>
+                                    {% else %}
+                                        <span class="badge badge-clarotur">{{ acceso.tipo }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if acceso.autorizado %}
+                                        <span class="badge badge-verde">Sí</span>
+                                    {% else %}
+                                        <span class="badge badge-rojo">No</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ acceso.guardia or 'Sistema' }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    <i class="bi bi-clipboard-x fs-1 d-block mb-2"></i>
+                                    No hay registros para el período seleccionado
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

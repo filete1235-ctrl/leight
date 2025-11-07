@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4 fw-bold" style="color:#3A506B;">Historial de Accesos</h2>
+
+<!-- Filtros -->
+<div class="card mb-4 shadow" style="background:#1C2541;color:#F4F4F4;">
+    <div class="card-header" style="background:#3A506B;">
+        <h5 class="mb-0">Filtros de Búsqueda</h5>
+    </div>
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label for="fecha_desde" class="form-label" style="color:#F4F4F4;">Fecha Desde</label>
+                <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" value="{{ fecha_desde }}" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+            </div>
+            <div class="col-md-3">
+                    <label for="fecha_hasta" class="form-label" style="color:#F4F4F4;">Fecha Hasta</label>
+                    <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" value="{{ fecha_hasta }}" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+            </div>
+            <div class="col-md-2">
+                    <label for="tipo" class="form-label" style="color:#F4F4F4;">Tipo</label>
+                    <select class="form-select" id="tipo" name="tipo" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                    <option value="">Todos</option>
+                    <option value="entrada" {% if tipo_seleccionado == 'entrada' %}selected{% endif %}>Entrada</option>
+                    <option value="salida" {% if tipo_seleccionado == 'salida' %}selected{% endif %}>Salida</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                    <label for="autorizado" class="form-label" style="color:#F4F4F4;">Autorizado</label>
+                    <select class="form-select" id="autorizado" name="autorizado" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                    <option value="">Todos</option>
+                    <option value="si" {% if autorizado_seleccionado == 'si' %}selected{% endif %}>Sí</option>
+                    <option value="no" {% if autorizado_seleccionado == 'no' %}selected{% endif %}>No</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">
+                        <i class="bi bi-funnel"></i> Filtrar
+                    </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla de Accesos -->
+<div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="color:#F4F4F4;">
+                <thead>
+                    <tr style="background:#3A506B;color:#F4F4F4;">
+                        <th>Fecha/Hora</th>
+                        <th>Visitante</th>
+                        <th>Tipo</th>
+                        <th>Autorizado</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for acceso in accesos %}
+                    <tr>
+                        <td>{{ acceso.fecha_hora.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ acceso.visitante_nombre or 'N/A' }}</td>
+                        <td>
+                            <span class="badge" style="background:#5BC0BE;color:#F4F4F4;">
+                                {{ acceso.tipo }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if acceso.autorizado %}
+                            <span class="badge" style="background:#38B000;color:#F4F4F4;">Sí</span>
+                            {% else %}
+                            <span class="badge" style="background:#D90429;color:#F4F4F4;">No</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ acceso.usuario_nombre or 'Sistema' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            <i class="bi bi-door-closed fs-1 d-block mb-2" style="color:#5BC0BE;"></i>
+                            No se encontraron registros de acceso
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

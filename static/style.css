@@ -1,0 +1,391 @@
+/* Estilos personalizados para el sistema de control de acceso */
+/* PALETA SECUREFLOW - Confort y Profesionalismo */
+:root {
+    --primary-color: #3A506B;
+    --secondary-color: #5BC0BE;
+    --background-color: #b6b4b4;
+    --text-primary: #F4F4F4;
+    --text-secondary: #CCCCCC;
+    --success-color: #38B000;
+    --danger-color: #D90429;
+    --warning-color: #FFD166;
+    --hover-color: #646d87;
+    --background-gradient: linear-gradient(135deg, #000000 0%, #3A506B 100%);
+    --card-gradient: linear-gradient(135deg, #3A506B 0%, #000000 100%);
+    --input-bg: #1C2541;
+    --input-border: #5BC0BE;
+    --shadow: 0 8px 24px rgba(0,0,0,0.25);
+    --font-main: 'Poppins', 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--background-color);
+    font-family: var(--font-main);
+    color: var(--primary-color);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 1rem;
+    background: var(--card-gradient);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 0.5rem;
+    }
+}
+
+/* Navbar moderna */
+.navbar {
+    background: linear-gradient(90deg, #000000 0%, #1C2541 100%) !important;
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+}
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: #F4F4F4 !important;
+}
+.navbar-brand i {
+    margin-right: 0.5rem;
+    color: #5BC0BE;
+}
+.navbar-nav .nav-link {
+    color: #F4F4F4 !important;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    transition: color 0.2s, background-color 0.2s;
+    padding: 0.5rem 1rem;
+}
+.navbar-nav .nav-link:hover {
+    color: #5BC0BE !important;
+}
+
+@media (max-width: 991px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    .navbar-toggler {
+        border-color: rgba(255,255,255,0.1);
+        padding: 0.25rem 0.5rem;
+    }
+    .navbar-nav {
+        padding: 1rem 0;
+    }
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+    }
+    .navbar-nav .nav-link:hover {
+        background-color: rgba(91, 192, 190, 0.1);
+    }
+}
+
+/* Tarjetas con gradiente y sombra */
+.card {
+    border: none;
+    border-radius: 18px;
+    background: #1C2541;
+    color: #FFFFFF;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+}
+.card-header {
+    border-radius: 18px 18px 0 0 !important;
+    font-weight: 700;
+    background: #000000;
+    color: #FFFFFF;
+    border: none;
+}
+
+/* Botones vibrantes */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(58,80,107,0.08);
+}
+.btn-primary {
+    background: linear-gradient(90deg, #3A506B 0%, #5BC0BE 100%);
+    border: none;
+    color: #F4F4F4;
+}
+.btn-success {
+    background: #38B000;
+    border: none;
+    color: #F4F4F4;
+}
+.btn-warning {
+    background: #FFD166;
+    border: none;
+    color: #2E2E2E;
+}
+.btn-danger {
+    background: #D90429;
+    border: none;
+    color: #F4F4F4;
+}
+.btn:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(58,80,107,0.15);
+    background-color: var(--hover-color);
+    color: #F4F4F4;
+}
+
+/* Tablas modernas */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1C2541;
+    color: #FFFFFF;
+    box-shadow: var(--shadow);
+}
+.table th {
+    background: #000000;
+    color: #FFFFFF;
+    font-weight: 700;
+    border: none;
+}
+.table td {
+    vertical-align: middle;
+    border-color: #5BC0BE;
+    color: #FFFFFF;
+}
+.table-hover tbody tr:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+/* Badges modernos */
+.badge {
+    font-weight: 600;
+    padding: 0.5em 0.9em;
+    border-radius: 8px;
+    background: #5BC0BE;
+    color: #F4F4F4;
+    box-shadow: 0 2px 8px rgba(58,80,107,0.08);
+}
+
+/* Clases estandarizadas para badges usadas en plantillas (reemplazan estilos inline) */
+.badge-turquesa { background: #5BC0BE; color: #F4F4F4; font-size: 1em; }
+.badge-verde { background: #38B000; color: #F4F4F4; font-size: 1em; }
+.badge-gris { background: #6B7280; color: #F4F4F4; font-size: 1em; }
+.badge-aqua { background: #70B2B2; color: #016B61; font-size: 1em; }
+.badge-oscuro { background: #016B61; color: #E5E9C5; font-size: 1em; }
+.badge-clarotur { background: #9ECFD4; color: #016B61; font-size: 1em; }
+.badge-crema { background: #E5E9C5; color: #016B61; font-size: 1em; }
+.badge-rojo { background: #D90429; color: #F4F4F4; font-size: 1em; }
+.badge-amarillo { background: #FFD166; color: #2E2E2E; font-size: 1em; }
+
+
+/* Alertas modernas */
+.alert {
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    background: #9ECFD4;
+    color: #016B61;
+    box-shadow: 0 2px 8px rgba(1,107,97,0.08);
+}
+.alert-dismissible .btn-close {
+    padding: 0.75rem;
+    filter: invert(0.5);
+}
+
+/* Formularios modernos */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: all 0.2s;
+    font-size: 1.05rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem #5BC0BE;
+}
+
+/* Dashboard cards modernos */
+.card.bg-primary { background: #1C2541 !important; color: #FFFFFF; }
+.card.bg-success { background: #38B000 !important; color: #FFFFFF; }
+.card.bg-warning { background: #FFD166 !important; color: #000000; }
+.card.bg-info { background: #5BC0BE !important; color: #000000; }
+.card.bg-danger { background: #D90429 !important; color: #FFFFFF; }
+
+
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .btn-group-sm .btn {
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Custom scrollbar moderno */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #1C2541;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: #5BC0BE;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #FFFFFF;
+}
+
+/* Icon styles */
+.bi {
+    vertical-align: -0.125em;
+}
+
+/* Menús y elementos de navegación mejorados */
+.nav-item {
+    margin: 0.25rem 0;
+}
+
+.nav-link {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    padding: 0.75rem 1.25rem;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-color);
+    transform: translateX(5px);
+}
+
+.nav-link.active {
+    /* When a nav item is active we show a white background and dark text for contrast */
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+/* Tarjetas y contenedores mejorados */
+.card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+/* Botones mejorados */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Status indicators modernos */
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    box-shadow: 0 0 6px rgba(255,255,255,0.25);
+}
+.status-active { background-color: var(--success-color); }
+.status-inactive { background-color: #6B7280; }
+.status-pending { background-color: var(--warning-color); }
+
+/* Badges por nivel de alerta */
+.badge-nivel-alto { background: var(--danger-color); color: #000000; }
+.badge-nivel-medio { background: var(--warning-color); color: #000000; }
+.badge-nivel-bajo { background: var(--secondary-color); color: #000000; }
+
+/* Tablas mejoradas */
+.table {
+    background: var(--card-gradient);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+    border-bottom: none;
+    padding: 1rem;
+}
+
+.table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--hover-color);
+}
+
+/* Forms mejorados */
+.form-control {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: var(--input-bg);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(91, 192, 190, 0.25);
+    color: var(--text-primary);
+}

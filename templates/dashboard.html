@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4 fw-bold" style="color:#3A506B;letter-spacing:1px;">Dashboard Principal</h2>
+
+<!-- Tarjetas de Estadísticas -->
+<div class="row">
+    <div class="col-md-3 mb-4">
+    <div class="card shadow" style="background:#3A506B;color:#F4F4F4;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-1" style="color:#F4F4F4;">Visitantes Activos</h6>
+                        <h2 class="fw-bold mb-0">{{ estadisticas.total_visitantes }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-people fs-1" style="color:#5BC0BE;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+    <div class="card shadow" style="background:#5BC0BE;color:#F4F4F4;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title" style="color:#F4F4F4;">Accesos Hoy</h5>
+                        <h2 class="mb-0">{{ estadisticas.accesos_hoy }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-door-open fs-1" style="color:#F4F4F4;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if estadisticas.alertas_hoy is defined %}
+    <div class="col-md-3 mb-4">
+    <div class="card shadow" style="background:#FFD166;color:#2E2E2E;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title" style="color:#2E2E2E;">Alertas Hoy</h5>
+                        <h2 class="mb-0">{{ estadisticas.alertas_hoy }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-bell fs-1" style="color:#2E2E2E;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if estadisticas.total_usuarios is defined %}
+    <div class="col-md-3 mb-4">
+    <div class="card shadow" style="background:#38B000;color:#F4F4F4;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title" style="color:#F4F4F4;">Usuarios Activos</h5>
+                        <h2 class="mb-0">{{ estadisticas.total_usuarios }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="bi bi-person-check fs-1" style="color:#F4F4F4;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Acciones Rápidas -->
+<div class="card mb-4 shadow" style="background:#F4F4F4;color:#3A506B;">
+    <div class="card-header" style="background:#3A506B;color:#F4F4F4;">
+        <h5 class="mb-0">Acciones Rápidas</h5>
+    </div>
+    <div class="card-body">
+        <div class="d-flex gap-2 flex-wrap">
+            {% if 'visitantes.crear_visitantes' in usuario_actual.permisos %}
+            <a href="{{ url_for('agregar_visitante') }}" class="btn btn-primary" style="background:#3A506B;color:#F4F4F4;">
+                <i class="bi bi-person-plus"></i> Registrar Visitante
+            </a>
+            {% endif %}
+            
+            {% if 'acceso.control_acceso' in usuario_actual.permisos %}
+            <a href="{{ url_for('control_acceso') }}" class="btn btn-success" style="background:#38B000;color:#F4F4F4;">
+                <i class="bi bi-door-open"></i> Control de Acceso
+            </a>
+            {% endif %}
+            
+            {% if 'reportes.generar_reportes' in usuario_actual.permisos %}
+            <a href="{{ url_for('generar_reporte') }}" class="btn btn-warning" style="background:#FFD166;color:#2E2E2E;">
+                <i class="bi bi-graph-up"></i> Generar Reportes
+            </a>
+            {% endif %}
+            
+            {% if 'usuarios.crear_usuarios' in usuario_actual.permisos %}
+            <a href="{{ url_for('agregar_usuario') }}" class="btn btn-info" style="background:#5BC0BE;color:#F4F4F4;">
+                <i class="bi bi-person-plus"></i> Agregar Usuario
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Accesos Recientes -->
+    {% if estadisticas.accesos_recientes is defined and estadisticas.accesos_recientes %}
+    <div class="col-md-6 mb-4">
+    <div class="card shadow" style="background:#3A506B;color:#F4F4F4;">
+            <div class="card-header" style="background:#1C2541;color:#F4F4F4;">
+                <h5 class="mb-0">Accesos Recientes</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" style="background:#F4F4F4;color:#2E2E2E;">
+                        <thead>
+                            <tr>
+                                <th>Visitante</th>
+                                <th>Tipo</th>
+                                <th>Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for acceso in estadisticas.accesos_recientes %}
+                            <tr>
+                                <td>{{ acceso.visitante_nombre or 'Sistema' }}</td>
+                                <td>
+                                        <span class="badge badge-turquesa">
+                                            {{ acceso.tipo }}
+                                        </span>
+                                </td>
+                                <td>{{ acceso.fecha_hora.strftime('%H:%M') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Alertas Recientes -->
+    {% if estadisticas.alertas_recientes is defined and estadisticas.alertas_recientes %}
+    <div class="col-md-6 mb-4">
+    <div class="card shadow" style="background:#5BC0BE;color:#F4F4F4;">
+            <div class="card-header" style="background:#1C2541;color:#F4F4F4;">
+                <h5 class="mb-0">Alertas Recientes</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    {% for alerta in estadisticas.alertas_recientes %}
+                    <div class="list-group-item" style="background:#F4F4F4;color:#2E2E2E;">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <h6 class="mb-1 fw-bold">{{ alerta.descripcion[:50] }}...</h6>
+                            {% if alerta.nivel == 'alto' %}
+                            <span class="badge badge-rojo">
+                            {% elif alerta.nivel == 'medio' %}
+                            <span class="badge badge-amarillo">
+                            {% else %}
+                            <span class="badge badge-turquesa">
+                            {% endif %}
+                                {{ alerta.nivel }}
+                            </span>
+                        </div>
+                        <small class="text-muted">{{ alerta.fecha.strftime('%H:%M') }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

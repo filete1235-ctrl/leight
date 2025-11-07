@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+            <div class="card-header" style="background:#3A506B;">
+                <h4 class="mb-0" style="color:#F4F4F4;">Crear Nuevo Rol</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label" style="color:#F4F4F4;">Nombre del Rol *</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" 
+                               required placeholder="Ej: Auditor, Coordinador..." 
+                               style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label" style="color:#F4F4F4;">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" 
+                                  rows="2" placeholder="Descripción del rol..."
+                                  style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label" style="color:#F4F4F4;">Permisos *</label>
+                        <div class="border rounded p-3" style="max-height: 400px; overflow-y: auto; background:#1C2541;border:2px solid #5BC0BE;">
+                            {% set modulos = [] %}
+                            {% for permiso in permisos %}
+                                {% if permiso.modulo not in modulos %}
+                                    {% set _ = modulos.append(permiso.modulo) %}
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% for modulo in modulos %}
+                            <div class="mb-3">
+                                <h6 class="text-capitalize" style="color:#5BC0BE;">{{ modulo }}</h6>
+                                {% for permiso in permisos %}
+                                    {% if permiso.modulo == modulo %}
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" 
+                                               name="permisos" value="{{ permiso.id }}" 
+                                               id="permiso_{{ permiso.id }}"
+                                               style="border-color:#5BC0BE;">
+                                        <label class="form-check-label" for="permiso_{{ permiso.id }}" style="color:#F4F4F4;">
+                                            {{ permiso.nombre }}
+                                            <small class="text-muted d-block" style="color:#5BC0BE !important;">{{ permiso.descripcion }}</small>
+                                        </label>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">Crear Rol</button>
+                        <a href="{{ url_for('listar_roles') }}" class="btn btn-secondary" style="background:#3A506B;border-color:#3A506B;color:#F4F4F4;">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

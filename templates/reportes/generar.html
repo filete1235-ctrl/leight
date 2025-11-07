@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Generar Reporte</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo de Reporte *</label>
+                        <select class="form-select" id="tipo" name="tipo" required>
+                            <option value="diario">Reporte Diario</option>
+                            <option value="mensual">Reporte Mensual</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha_inicio" class="form-label">Fecha Inicio *</label>
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                                   value="{{ hoy }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3" id="fecha_fin_container" style="display: none;">
+                            <label for="fecha_fin" class="form-label">Fecha Fin *</label>
+                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="formato" class="form-label">Formato de Salida *</label>
+                        <select class="form-select" id="formato" name="formato" required>
+                            <option value="html">Ver en Navegador</option>
+                            <option value="csv">Descargar CSV</option>
+                            <option value="pdf">Descargar PDF</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Información de Reportes -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Tipos de Reporte Disponibles</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Reporte Diario</h6>
+                        <p class="small text-muted">
+                            Muestra todos los accesos registrados en una fecha específica.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Reporte Mensual</h6>
+                        <p class="small text-muted">
+                            Muestra los accesos en un rango de fechas (máximo 31 días).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('tipo').addEventListener('change', function() {
+    const fechaFinContainer = document.getElementById('fecha_fin_container');
+    fechaFinContainer.style.display = this.value === 'mensual' ? 'block' : 'none';
+});
+
+// Establecer fecha fin como fecha inicio + 30 días para reportes mensuales
+document.getElementById('fecha_inicio').addEventListener('change', function() {
+    const tipo = document.getElementById('tipo').value;
+    const fechaFin = document.getElementById('fecha_fin');
+    
+    if (tipo === 'mensual' && this.value) {
+        const fechaInicio = new Date(this.value);
+        fechaInicio.setDate(fechaInicio.getDate() + 30);
+        fechaFin.value = fechaInicio.toISOString().split('T')[0];
+    }
+});
+</script>
+{% endblock %}

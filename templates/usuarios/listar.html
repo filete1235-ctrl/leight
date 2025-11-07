@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold" style="color:#3A506B;letter-spacing:1px;">Gestión de Usuarios</h2>
+    {% if 'usuarios.crear_usuarios' in usuario_actual.permisos %}
+    <a href="{{ url_for('agregar_usuario') }}" class="btn btn-primary" style="background:#3A506B;color:#F4F4F4;">
+        <i class="bi bi-person-plus"></i> Agregar Usuario
+    </a>
+    {% endif %}
+</div>
+
+<div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="color:#F4F4F4;">
+                <thead>
+                    <tr style="background:#3A506B;color:#F4F4F4;">
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Fecha Creación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.correo }}</td>
+                        <td>
+                            <span class="badge" style="background:#5BC0BE;color:#F4F4F4;">{{ usuario.rol_nombre }}</span>
+                        </td>
+                        <td>
+                            {% if usuario.estado == 'activo' %}
+                            <span class="badge" style="background:#38B000;color:#F4F4F4;">{{ usuario.estado }}</span>
+                            {% else %}
+                            <span class="badge" style="background:#D90429;color:#F4F4F4;">{{ usuario.estado }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ usuario.fecha_creacion.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                {% if 'usuarios.editar_usuarios' in usuario_actual.permisos %}
+                                <a href="{{ url_for('editar_usuario', id=usuario.id) }}" 
+                                   class="btn btn-sm" style="background:#5BC0BE;border-color:#5BC0BE;color:#1C2541;" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% endif %}
+                                {% if 'usuarios.cambiar_estado_usuarios' in usuario_actual.permisos %}
+                                <a href="{{ url_for('cambiar_estado_usuario', id=usuario.id) }}" 
+                                   class="btn btn-sm" style="background:#3A506B;border-color:#3A506B;color:#F4F4F4;" title="{{ 'Desactivar' if usuario.estado == 'activo' else 'Activar' }}">
+                                    <i class="bi bi-{% if usuario.estado == 'activo' %}x-circle{% else %}check-circle{% endif %}"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="bi bi-people fs-1 d-block mb-2" style="color:#3A506B;"></i>
+                            No se encontraron usuarios
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

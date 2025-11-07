@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+            <div class="card-header" style="background:#3A506B;">
+                <h4 class="mb-0" style="color:#F4F4F4;">Editar Usuario</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label" style="color:#F4F4F4;">Nombre Completo *</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                   value="{{ usuario.nombre }}" required style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="correo" class="form-label" style="color:#F4F4F4;">Correo Electrónico *</label>
+                            <input type="email" class="form-control" id="correo" name="correo" 
+                                   value="{{ usuario.correo }}" required style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cambiar_contrasena" name="cambiar_contrasena" style="border-color:#5BC0BE;">
+                            <label class="form-check-label" for="cambiar_contrasena" style="color:#F4F4F4;">
+                                Cambiar contraseña
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3" id="contrasena_container" style="display: none;">
+                        <label for="contrasena" class="form-label" style="color:#F4F4F4;">Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="contrasena" name="contrasena" 
+                               placeholder="Dejar en blanco para mantener la actual" minlength="8" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        <div class="form-text" style="color:#5BC0BE;">Mínimo 8 caracteres</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="rol_id" class="form-label" style="color:#F4F4F4;">Rol *</label>
+                            <select class="form-select" id="rol_id" name="rol_id" required style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                                <option value="">Seleccionar Rol</option>
+                                {% for rol in roles %}
+                                <option value="{{ rol.id }}" {% if rol.id == usuario.rol_id %}selected{% endif %}>
+                                    {{ rol.nombre }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="estado" class="form-label" style="color:#F4F4F4;">Estado</label>
+                            <select class="form-select" id="estado" name="estado" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                                <option value="activo" {% if usuario.estado == 'activo' %}selected{% endif %}>Activo</option>
+                                <option value="inactivo" {% if usuario.estado == 'inactivo' %}selected{% endif %}>Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">Guardar Cambios</button>
+                        <a href="{{ url_for('listar_usuarios') }}" class="btn btn-secondary" style="background:#3A506B;border-color:#3A506B;color:#F4F4F4;">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('cambiar_contrasena').addEventListener('change', function() {
+    document.getElementById('contrasena_container').style.display = 
+        this.checked ? 'block' : 'none';
+});
+</script>
+{% endblock %}

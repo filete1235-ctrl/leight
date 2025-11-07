@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+            <div class="card-header" style="background:#3A506B;">
+                <h4 class="mb-0" style="color:#F4F4F4;">Editar Visitante</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label" style="color:#F4F4F4;">Nombre Completo *</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                   value="{{ visitante.nombre }}" required style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="identificacion" class="form-label" style="color:#F4F4F4;">Identificación *</label>
+                            <input type="text" class="form-control" id="identificacion" name="identificacion" 
+                                   value="{{ visitante.identificacion }}" required style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="empresa" class="form-label" style="color:#F4F4F4;">Empresa</label>
+                        <input type="text" class="form-control" id="empresa" name="empresa" 
+                               value="{{ visitante.empresa or '' }}" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label" style="color:#F4F4F4;">Motivo de la Visita *</label>
+                        <textarea class="form-control" id="motivo" name="motivo" rows="3" required 
+                                 style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">{{ visitante.motivo }}</textarea>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">Actualizar Visitante</button>
+                        <a href="{{ url_for('listar_visitantes') }}" class="btn btn-secondary" style="background:#3A506B;border-color:#3A506B;color:#F4F4F4;">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

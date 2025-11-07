@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold" style="color:#3A506B;">Gestión de Visitantes</h2>
+    {% if 'visitantes.crear_visitantes' in usuario_actual.permisos %}
+    <a href="{{ url_for('agregar_visitante') }}" class="btn btn-primary" style="background:#3A506B;color:#F4F4F4;">
+        <i class="bi bi-person-plus"></i> Agregar Visitante
+    </a>
+    {% endif %}
+</div>
+
+<!-- Filtros -->
+<div class="card mb-4 shadow" style="background:#3A506B;color:#F4F4F4;">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label for="estado" class="form-label" style="color:#F4F4F4;">Estado</label>
+                <select class="form-select" id="estado" name="estado" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                    <option value="">Todos</option>
+                    <option value="activo" {% if estado_seleccionado == 'activo' %}selected{% endif %}>Activos</option>
+                    <option value="inactivo" {% if estado_seleccionado == 'inactivo' %}selected{% endif %}>Inactivos</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+          <label for="buscar" class="form-label" style="color:#F4F4F4;">Buscar</label>
+          <input type="text" class="form-control" id="buscar" name="buscar" 
+              value="{{ buscar }}" placeholder="Nombre, identificación o empresa..." style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100" style="background:#5BC0BE;color:#F4F4F4;">
+                    <i class="bi bi-search"></i> Filtrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla de Visitantes -->
+<div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="color:#F4F4F4;">
+                <thead>
+                    <tr style="background:#3A506B;color:#F4F4F4;">
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Identificación</th>
+                        <th>Empresa</th>
+                        <th>Credencial</th>
+                        <th>Estado</th>
+                        <th>Visitas</th>
+                        <th>Fecha Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for visitante in visitantes %}
+                    <tr>
+                        <td>{{ visitante.id }}</td>
+                        <td>{{ visitante.nombre }}</td>
+                        <td>{{ visitante.identificacion }}</td>
+                        <td>{{ visitante.empresa or 'N/A' }}</td>
+                        <td>
+                            {% if visitante.codigo %}
+                            <span class="badge" style="background:#5BC0BE;color:#F4F4F4;">{{ visitante.codigo }}</span>
+                            {% else %}
+                            <span class="badge" style="background:#1C2541;color:#F4F4F4;">Sin credencial</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if visitante.estado == 'activo' %}
+                            <span class="badge" style="background:#38B000;color:#F4F4F4;">{{ visitante.estado }}</span>
+                            {% else %}
+                            <span class="badge" style="background:#D90429;color:#F4F4F4;">{{ visitante.estado }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge" style="background:#5BC0BE;color:#F4F4F4;">{{ visitante.total_visitas }}</span>
+                        </td>
+                        <td>{{ visitante.fecha_registro.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                {% if 'visitantes.editar_visitantes' in usuario_actual.permisos %}
+                                <a href="{{ url_for('editar_visitante', id=visitante.id) }}" 
+                                   class="btn btn-warning" style="background:#5BC0BE;color:#F4F4F4;" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% endif %}
+                                {% if 'visitantes.cambiar_estado_visitantes' in usuario_actual.permisos %}
+                                <a href="{{ url_for('cambiar_estado_visitante', id=visitante.id) }}" 
+                                   class="btn btn-success" style="background:#38B000;color:#F4F4F4;" title="{{ 'Desactivar' if visitante.estado == 'activo' else 'Activar' }}">
+                                    <i class="bi bi-{% if visitante.estado == 'activo' %}x-circle{% else %}check-circle{% endif %}"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center text-muted py-4">
+                            <i class="bi bi-people fs-1 d-block mb-2" style="color:#5BC0BE;"></i>
+                            No se encontraron visitantes
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold" style="color:#3A506B;letter-spacing:1px;">Gestión de Alertas</h2>
+    {% if 'alertas.crear_alertas' in usuario_actual.permisos %}
+    <a href="{{ url_for('crear_alerta') }}" class="btn btn-primary" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">
+        <i class="bi bi-exclamation-circle"></i> Nueva Alerta
+    </a>
+    {% endif %}
+</div>
+
+<div class="card shadow mb-4" style="background:#1C2541;color:#F4F4F4;">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label" style="color:#F4F4F4;">Nivel</label>
+                <select name="nivel" class="form-select" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                    <option value="" {% if nivel_seleccionado == '' %}selected{% endif %}>Todos</option>
+                    <option value="alto" {% if nivel_seleccionado == 'alto' %}selected{% endif %}>Alto</option>
+                    <option value="medio" {% if nivel_seleccionado == 'medio' %}selected{% endif %}>Medio</option>
+                    <option value="bajo" {% if nivel_seleccionado == 'bajo' %}selected{% endif %}>Bajo</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" style="color:#F4F4F4;">Desde</label>
+                <input type="date" name="fecha_desde" value="{{ fecha_desde }}" class="form-control" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" style="color:#F4F4F4;">Hasta</label>
+                <input type="date" name="fecha_hasta" value="{{ fecha_hasta }}" class="form-control" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+            </div>
+            <div class="col-md-3 text-end">
+                <button type="submit" class="btn" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">
+                    <i class="bi bi-funnel"></i> Filtrar
+                </button>
+                <a href="{{ url_for('listar_alertas') }}" class="btn btn-outline-secondary ms-2" style="border-color:#F4F4F4;color:#F4F4F4;">Limpiar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card shadow" style="background:#3A506B;color:#F4F4F4;">
+            <div class="card-body">
+                <h6 class="mb-1">Alertas Hoy</h6>
+                <h3 class="fw-bold" style="color:#5BC0BE;">{{ estadisticas.total or 0 }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card shadow" style="background:#D90429;color:#F4F4F4;">
+            <div class="card-body text-center">
+                <div class="text-white small">Altas</div>
+                <div class="fw-bold">{{ estadisticas.altas or 0 }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card shadow" style="background:#FFD166;color:#1C2541;">
+            <div class="card-body text-center">
+                <div class="text-dark small">Medias</div>
+                <div class="fw-bold">{{ estadisticas.medias or 0 }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card shadow" style="background:#38B000;color:#F4F4F4;">
+            <div class="card-body text-center">
+                <div class="text-muted small">Bajas</div>
+                <div class="fw-bold">{{ estadisticas.bajas or 0 }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="color:#F4F4F4;">
+                <thead>
+                    <tr style="background:#3A506B;color:#F4F4F4;">
+                        <th>ID</th>
+                        <th>Descripción</th>
+                        <th>Nivel</th>
+                        <th>Usuario</th>
+                        <th>Visitante</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alerta in alertas %}
+                    <tr>
+                        <td>{{ alerta.id }}</td>
+                        <td>{{ alerta.descripcion }}</td>
+                        <td>
+                            {% if alerta.nivel == 'alto' %}
+                                <span class="badge" style="background:#D90429;color:#F4F4F4;">{{ alerta.nivel|capitalize }}</span>
+                            {% elif alerta.nivel == 'medio' %}
+                                <span class="badge" style="background:#FFD166;color:#1C2541;">{{ alerta.nivel|capitalize }}</span>
+                            {% else %}
+                                <span class="badge" style="background:#38B000;color:#F4F4F4;">{{ alerta.nivel|capitalize }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ alerta.usuario_nombre or 'Sistema' }}</td>
+                        <td>{{ alerta.visitante_nombre or '-' }}</td>
+                        <td>{{ alerta.fecha.strftime('%Y-%m-%d %H:%M') if alerta.fecha else '' }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                {% if 'alertas.eliminar_alertas' in usuario_actual.permisos %}
+                                <a href="{{ url_for('eliminar_alerta', id=alerta.id) }}" class="btn btn-sm" style="background:#D90429;border-color:#D90429;color:#F4F4F4;" onclick="return confirm('¿Eliminar alerta?');">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="bi bi-bell fs-1 d-block mb-2" style="color:#5BC0BE;"></i>
+                            No se encontraron alertas
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

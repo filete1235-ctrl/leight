@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="login-container my-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-7 col-lg-5">
+                <div class="login-card p-3 p-md-4 shadow">
+                    <div class="text-center mb-4">
+                        <span class="d-inline-block p-3 rounded-circle mb-2" style="background:linear-gradient(135deg,#3A506B,#5BC0BE);">
+                            <i class="bi bi-shield-lock" style="font-size:clamp(1.8rem, 4vw, 2.2rem);color:#F4F4F4;"></i>
+                        </span>
+                        <h3 class="fw-bold mb-0" style="color:#5BC0BE;letter-spacing:1px;font-size:clamp(1.5rem, 3vw, 2rem);">Control de Acceso</h3>
+                    </div>
+                    <h5 class="text-center mb-4" style="color:#F4F4F4;">Iniciar Sesión</h5>
+                    <form method="post">
+                                    <div class="mb-3">
+                                        <label for="correo" class="form-label" style="color:#F4F4F4;">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="correo" name="correo" required placeholder="usuario@ejemplo.com" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contrasena" class="form-label" style="color:#F4F4F4;">Contraseña</label>
+                                        <input type="password" class="form-control" id="contrasena" name="contrasena" required placeholder="Ingrese su contraseña" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="recordar" name="recordar" style="border-color:#5BC0BE;">
+                                        <label class="form-check-label" for="recordar" style="color:#F4F4F4;">Recordar sesión</label>
+                                    </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2" style="background:linear-gradient(90deg,#3A506B,#5BC0BE);color:#F4F4F4;">Iniciar Sesión</button>
+                    </form>
+                                <hr class="my-4" style="border-color:#5BC0BE;">
+                                <div class="text-center">
+                                    <h6 class="fw-bold" style="color:#5BC0BE;">Credenciales de Demo:</h6>
+                                    <div class="small" style="color:#F4F4F4;">
+                                        <div><strong>Administrador:</strong> admin@controlacceso.com / admin123</div>
+                                        <div><strong>Guardia:</strong> guardia@controlacceso.com / guardia123</div>
+                                        <div><strong>Recepción:</strong> recepcion@controlacceso.com / recepcion123</div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

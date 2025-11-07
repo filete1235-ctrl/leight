@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow" style="background:#1C2541;color:#F4F4F4;">
+            <div class="card-header" style="background:#3A506B;">
+                <h4 class="mb-0" style="color:#F4F4F4;">Registrar Nuevo Usuario</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                <label for="nombre" class="form-label" style="color:#F4F4F4;">Nombre Completo *</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required 
+                    placeholder="Ingrese nombre completo" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                <label for="correo" class="form-label" style="color:#F4F4F4;">Correo Electrónico *</label>
+                <input type="email" class="form-control" id="correo" name="correo" required 
+                    placeholder="usuario@ejemplo.com" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+               <label for="contrasena" class="form-label" style="color:#F4F4F4;">Contraseña *</label>
+               <input type="password" class="form-control" id="contrasena" name="contrasena" required 
+                   placeholder="Mínimo 8 caracteres" minlength="8" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+               <div class="form-text" style="color:#5BC0BE;">La contraseña debe tener al menos 8 caracteres</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="rol_id" class="form-label" style="color:#F4F4F4;">Rol *</label>
+                            <select class="form-select" id="rol_id" name="rol_id" required style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                                <option value="">Seleccionar Rol</option>
+                                {% for rol in roles %}
+                                <option value="{{ rol.id }}">{{ rol.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="estado" class="form-label" style="color:#F4F4F4;">Estado</label>
+                            <select class="form-select" id="estado" name="estado" style="background:#1C2541;border:2px solid #5BC0BE;color:#F4F4F4;">
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" style="background:#5BC0BE;border-color:#5BC0BE;color:#F4F4F4;">Guardar Usuario</button>
+                        <a href="{{ url_for('listar_usuarios') }}" class="btn btn-secondary" style="background:#3A506B;border-color:#3A506B;color:#F4F4F4;">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -25,8 +25,7 @@ def parse_mysql_url(url: Optional[str]):
 
 # Construcción de la configuración de la base de datos a partir de variables de entorno
 # Prioridad: MYSQL_PUBLIC_URL (pública, buena para conexiones externas), luego MYSQL_URL (interna), luego DATABASE_URL
-# Usar las claves de entorno correctas. Evitar usar valores literales como claves en os.environ.get().
-mysql_url = os.environ.get('mysql://root:dBFXlwdFLkBzuXdLochakelKQVcZhcbD@trolley.proxy.rlwy.net:41397/railway') or os.environ.get('mysql://root:dBFXlwdFLkBzuXdLochakelKQVcZhcbD@mysql.railway.internal:3306/railway') or os.environ.get('trolley.proxy.rlwy.net')
+mysql_url = os.environ.get('MYSQL_PUBLIC_URL') or os.environ.get('MYSQL_URL') or os.environ.get('DATABASE_URL')
 parsed = parse_mysql_url(mysql_url)
 
 # Valores por defecto
@@ -35,8 +34,8 @@ DB_CONFIG = {
     # Nota: en desarrollo local puedes sobrescribir estas variables con .env o vars del sistema.
     'host': 'mysql.railway.internal',
     'user': 'root',
-    'password': '',
-    'database': 'control_acceso',
+    'password': 'dBFXlwdFLkBzuXdLochakelKQVcZhcbD',  # Password por defecto para Railway
+    'database': 'railway',  # Base de datos por defecto en Railway
     'port': 3306
 }
 

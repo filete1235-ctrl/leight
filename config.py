@@ -25,15 +25,18 @@ def parse_mysql_url(url: Optional[str]):
 
 # Construcción de la configuración de la base de datos a partir de variables de entorno
 # Prioridad: MYSQL_PUBLIC_URL (pública, buena para conexiones externas), luego MYSQL_URL (interna), luego DATABASE_URL
-mysql_url = os.environ.get('mysql://root:HgQKxUFIXQFnZmbiaDOoliKeiTpMsPIJ@yamabiko.proxy.rlwy.net:55847/railway') or os.environ.get('mysql://root:HgQKxUFIXQFnZmbiaDOoliKeiTpMsPIJ@mysql.railway.internal:3306/railway') or os.environ.get('mysql-production-0512.up.railway.app')
+# Usar las claves de entorno correctas. Evitar usar valores literales como claves en os.environ.get().
+mysql_url = os.environ.get('mysql://root:dBFXlwdFLkBzuXdLochakelKQVcZhcbD@trolley.proxy.rlwy.net:41397/railway') or os.environ.get('mysql://root:dBFXlwdFLkBzuXdLochakelKQVcZhcbD@mysql.railway.internal:3306/railway') or os.environ.get('trolley.proxy.rlwy.net')
 parsed = parse_mysql_url(mysql_url)
 
 # Valores por defecto
 DB_CONFIG = {
+    # Por defecto usamos el host interno de Railway y el puerto MySQL estándar 3306.
+    # Nota: en desarrollo local puedes sobrescribir estas variables con .env o vars del sistema.
     'host': 'mysql.railway.internal',
     'user': 'root',
-    'password': 'HgQKxUFIXQFnZmbiaDOoliKeiTpMsPIJ',
-    'database': 'control_acceso_3',
+    'password': '',
+    'database': 'control_acceso',
     'port': 3306
 }
 
@@ -57,7 +60,7 @@ else:
     })
 
 # Configuración de la aplicación
-SECRET_KEY = 'clave_secreta_super_segura_mejorada_2024'
+SECRET_KEY = '123'
 DEBUG = True
 
 # Configuración de sesiones y cookies

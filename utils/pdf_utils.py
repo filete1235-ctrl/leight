@@ -38,7 +38,7 @@ def generar_pdf_reporte(accesos, tipo_reporte, fecha_inicio, fecha_fin, titulo="
     info_text = f"""
     <b>Tipo de Reporte:</b> {tipo_reporte.capitalize()}<br/>
     <b>Período:</b> {fecha_inicio} {f' al {fecha_fin}' if tipo_reporte == 'mensual' else ''}<br/>
-    <b>Generado el:</b> {datetime.now().strftime('%Y-%m-%d %H:%M')}<br/>
+    <b>Generado el:</b> {datetime.now().strftime('%Y-%m-%d %I:%M %p')}<br/>
     <b>Total de registros:</b> {len(accesos)}
     """
     
@@ -53,7 +53,7 @@ def generar_pdf_reporte(accesos, tipo_reporte, fecha_inicio, fecha_fin, titulo="
         
         # Datos
         for acceso in accesos:
-            fecha_str = acceso['fecha_hora'].strftime('%Y-%m-%d %H:%M')
+            fecha_str = acceso['fecha_hora'].strftime('%Y-%m-%d %I:%M %p')
             visitante = acceso.get('visitante', 'N/A')
             tipo = acceso['tipo'].capitalize()
             autorizado = 'Sí' if acceso['autorizado'] else 'No'

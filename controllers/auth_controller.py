@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for, session, flash
 from models.database import Database
 from auth.auth import registrar_intento_login, esta_bloqueado, resetear_intentos_login
+from utils.acceso_utils import normalizar_tipo_acceso
 import hashlib
 
 def login():
@@ -47,10 +48,10 @@ def login():
                 if recordar:
                     session.permanent = True
                 
-                # Registrar login exitoso
+                # Registrar login exitoso como entrada
                 cursor.execute("""
                     INSERT INTO accesos (usuario_id, tipo, autorizado, fecha_hora)
-                    VALUES (%s, 'login', 1, NOW())
+                    VALUES (%s, 'entrada', 1, NOW())
                 """, (usuario['id'],))
                 
                 conn.commit()
@@ -80,7 +81,7 @@ def logout():
                 cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO accesos (usuario_id, tipo, autorizado, fecha_hora)
-                    VALUES (%s, 'logout', 1, NOW())
+                    VALUES (%s, 'salida', 1, NOW())
                 """, (session['usuario_id'],))
                 conn.commit()
                 cursor.close()

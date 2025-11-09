@@ -81,13 +81,21 @@ def agregar_visitante():
         try:
             cursor = conn.cursor()
             
-            # Insertar visitante
-            cursor.execute("""
-                INSERT INTO visitantes (nombre, identificacion, empresa, motivo, estado)
-                VALUES (%s, %s, %s, %s, 'activo')
-            """, (nombre, identificacion, empresa, motivo))
+            # Obtener el último ID de visitantes activos
+            cursor.execute("SELECT MAX(id) FROM visitantes WHERE estado = 'activo'")
+            result = cursor.fetchone()
+            last_active_id = result[0] if result and result[0] else 0
             
-            visitante_id = cursor.lastrowid
+            # Si no hay visitantes activos, empezar desde 1
+            next_id = last_active_id + 1 if last_active_id else 1
+            
+            # Insertar visitante con ID específico
+            cursor.execute("""
+                INSERT INTO visitantes (id, nombre, identificacion, empresa, motivo, estado)
+                VALUES (%s, %s, %s, %s, %s, 'activo')
+            """, (next_id, nombre, identificacion, empresa, motivo))
+            
+            visitante_id = next_id
             
             # Generar credencial si se solicitó
             if generar_credencial == 'si':

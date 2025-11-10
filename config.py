@@ -74,6 +74,9 @@ HORARIOS_ACCESO = {
     'hora_fin': '18:00'
 }
 
+# Zona horaria de la aplicación (usar formato IANA, p. ej. 'America/Caracas')
+APP_TIMEZONE = os.environ.get('APP_TIMEZONE', 'UTC')
+
 # Configuración de credenciales
 DURACION_CREDENCIAL_HORAS = 8
 

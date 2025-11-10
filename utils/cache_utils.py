@@ -1,6 +1,7 @@
 """Utilidades de caché para mejorar el rendimiento"""
 from functools import wraps
-from datetime import datetime, timedelta
+from datetime import timedelta
+from utils.time_utils import app_now
 import hashlib
 import json
 
@@ -29,14 +30,14 @@ def cache_for(seconds=300):
             # Verificar si existe en caché y no ha expirado
             if key in _cache:
                 result, expire_time = _cache[key]
-                if datetime.now() < expire_time:
+                if app_now() < expire_time:
                     return result
                 
             # Si no está en caché o expiró, ejecutar función
             result = func(*args, **kwargs)
             
             # Almacenar en caché con tiempo de expiración
-            expire_time = datetime.now() + timedelta(seconds=seconds)
+            expire_time = app_now() + timedelta(seconds=seconds)
             _cache[key] = (result, expire_time)
             
             return result

@@ -59,7 +59,8 @@ else:
     })
 
 # Configuración de la aplicación
-SECRET_KEY = '123'
+# SECRET_KEY: se recomienda establecer en la variable de entorno SECRET_KEY en producción.
+# Si config.py define SECRET_KEY, se usará; de lo contrario `app.py` usará la variable de entorno.
 DEBUG = True
 
 # Configuración de sesiones y cookies
@@ -74,8 +75,8 @@ HORARIOS_ACCESO = {
     'hora_fin': '18:00'
 }
 
-# Zona horaria de la aplicación (usar formato IANA, p. ej. 'America/Caracas')
-APP_TIMEZONE = os.environ.get('APP_TIMEZONE', 'UTC')
+# Zona horaria de la aplicación (usar formato IANA). Por defecto: hora de Colombia (COT)
+APP_TIMEZONE = os.environ.get('APP_TIMEZONE', 'America/Bogota')
 
 # Configuración de credenciales
 DURACION_CREDENCIAL_HORAS = 8

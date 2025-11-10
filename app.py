@@ -9,25 +9,24 @@ import os
 from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'clave_secreta_super_segura_mejorada_2024')
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)  # Cookies de 24 horas
 
-# Cargar configuración
+# Cargar configuración (si existe) antes de asignar claves/cookies
 try:
     app.config.from_pyfile('config.py')
-except:
+except Exception:
     print("⚠️  Config.py no encontrado, usando configuración por defecto")
+
+# Establecer secret key consistente: prioridad a la variable de entorno, luego a config.py, luego valor por defecto
+app.secret_key = os.environ.get('SECRET_KEY', app.config.get('SECRET_KEY', 'clave_secreta_super_segura_mejorada_2024'))
+# Configurar duración de sesión usando la configuración (si fue sobrescrita en config.py)
+app.config['PERMANENT_SESSION_LIFETIME'] = app.config.get('PERMANENT_SESSION_LIFETIME', timedelta(hours=24))
 
 # Context processor para inyectar usuario actual en todas las plantillas
 @app.context_processor
 def inject_user():
     return dict(usuario_actual=obtener_usuario_actual())
 
-# Middleware para manejar sesiones permanentes
-@app.before_request
-def make_session_permanent():
-    from flask import session
-    session.permanent = True
+# Nota: no forzamos session.permanent aquí para no sobrescribir la preferencia del usuario
 
 # ==================== RUTAS DE AUTENTICACIÓN ====================
 app.add_url_rule('/', view_func=auth_controller.login, methods=['GET', 'POST'])

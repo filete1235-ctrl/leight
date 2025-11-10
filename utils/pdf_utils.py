@@ -7,6 +7,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from io import BytesIO
 from datetime import datetime
+from utils.time_utils import app_now
 
 def generar_pdf_reporte(accesos, tipo_reporte, fecha_inicio, fecha_fin, titulo="Reporte de Accesos"):
     """Generar PDF del reporte de accesos"""
@@ -38,7 +39,7 @@ def generar_pdf_reporte(accesos, tipo_reporte, fecha_inicio, fecha_fin, titulo="
     info_text = f"""
     <b>Tipo de Reporte:</b> {tipo_reporte.capitalize()}<br/>
     <b>Período:</b> {fecha_inicio} {f' al {fecha_fin}' if tipo_reporte == 'mensual' else ''}<br/>
-    <b>Generado el:</b> {datetime.now().strftime('%Y-%m-%d %I:%M %p')}<br/>
+    <b>Generado el:</b> {app_now().strftime('%Y-%m-%d %I:%M %p')}<br/>
     <b>Total de registros:</b> {len(accesos)}
     """
     
@@ -171,8 +172,8 @@ def generar_pdf_estadisticas(estadisticas, accesos_7_dias, visitantes_frecuentes
     
     # Información del reporte
     info_text = f"""
-    <b>Generado el:</b> {datetime.now().strftime('%Y-%m-%d %H:%M')}<br/>
-    <b>Período analizado:</b> Últimos 7 días
+    <b>Generado el:</b> {app_now().strftime('%Y-%m-%d %H:%M')}<br/>
+    <b>Período analizado:</b> últimos 7 días
     """
     
     info_paragraph = Paragraph(info_text, styles['Normal'])

@@ -3,6 +3,12 @@ from models.database import Database
 from auth.auth import login_required, permiso_requerido
 from auth.permissions import *
 from datetime import datetime
+import config
+try:
+    # Python 3.9+: use zoneinfo
+    from zoneinfo import ZoneInfo
+except Exception:
+    ZoneInfo = None
 from utils.acceso_utils import normalizar_tipo_acceso
 
 @login_required
@@ -35,8 +41,17 @@ def control_acceso():
             credencial = cursor.fetchone()
             
             if credencial:
-                # Verificar horario (8:00 AM - 6:00 PM)
-                hora_actual = datetime.now().time()
+                # Verificar horario (8:00 AM - 6:00 PM) usando la zona horaria de la app
+                if ZoneInfo is not None:
+                    try:
+                        tz = ZoneInfo(config.APP_TIMEZONE)
+                        hora_actual = datetime.now(tz).time()
+                    except Exception:
+                        # Fallback a hora del sistema
+                        hora_actual = datetime.now().time()
+                else:
+                    # zoneinfo no disponible, fallback a hora del sistema
+                    hora_actual = datetime.now().time()
                 hora_inicio = datetime.strptime('08:00', '%H:%M').time()
                 hora_fin = datetime.strptime('18:00', '%H:%M').time()
                 

@@ -120,7 +120,8 @@ def crear_alerta():
         return redirect(url_for('listar_alertas'))
     
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, nombre FROM visitantes WHERE estado = 'activo' ORDER BY nombre")
+    # Ordenar visitantes por ID numérico ascendente para que las listas muestren 1,2,3...
+    cursor.execute("SELECT id, nombre FROM visitantes WHERE estado = 'activo' ORDER BY id ASC")
     visitantes = cursor.fetchall()
     cursor.close()
     conn.close()

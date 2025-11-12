@@ -398,6 +398,12 @@ body {
 /* Badges por nivel de alerta */
 .badge-nivel-alto { background: var(--danger-color); color: #000000; }
 .badge-nivel-medio { background: var(--warning-color); color: #000000; }
+
+/* Asegura que los grupos de acción no muestren elementos duplicados por pseudo-elementos o reglas móviles */
+.single-action-group > .btn::after,
+.single-action-group > .btn::before {
+    content: none !important;
+}
 .badge-nivel-bajo { background: var(--secondary-color); color: #000000; }
 
 /* Tablas mejoradas */

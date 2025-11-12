@@ -20,7 +20,7 @@ def listar_usuarios():
             SELECT u.*, r.nombre as rol_nombre, r.descripcion as rol_descripcion
             FROM usuarios u 
             JOIN roles r ON u.rol_id = r.id 
-            ORDER BY u.fecha_creacion DESC
+            ORDER BY u.id ASC
         """)
         
         usuarios = cursor.fetchall()

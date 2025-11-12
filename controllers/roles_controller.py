@@ -26,7 +26,7 @@ def listar_roles():
             LEFT JOIN usuarios u ON r.id = u.rol_id AND u.estado = 'activo'
             LEFT JOIN rol_permisos rp ON r.id = rp.rol_id
             GROUP BY r.id
-            ORDER BY r.nombre
+            ORDER BY r.id ASC
         """)
         
         roles = cursor.fetchall()

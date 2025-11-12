@@ -47,9 +47,7 @@ function enhanceForms() {
                 }, 5000);
             }
         if (firstInput && !firstInput.value) {
-            // Delegación de eventos para formularios
-            document.body.addEventListener('submit', handleFormSubmit);
-            document.body.addEventListener('input', handleFormInput);
+            // Auto-focus en el primer campo
             firstInput.focus();
             // Optimizar tablas solo si existen
             if (document.querySelector('table')) {
@@ -275,4 +273,15 @@ function showConnectionStatus(message, type) {
     setTimeout(() => {
         alert.remove();
     }, 5000);
+}
+
+// Manejo seguro de envíos/inputs para prevenir errores si no están definidos
+function handleFormSubmit(event) {
+    // placeholder: dejar que el formulario se envíe normalmente
+    return true;
+}
+
+function handleFormInput(event) {
+    // placeholder: no-op, evita errores si se registran listeners en runtime
+    return true;
 }

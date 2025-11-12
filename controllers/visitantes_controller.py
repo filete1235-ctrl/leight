@@ -44,7 +44,8 @@ def listar_visitantes():
             query += " AND (v.nombre LIKE %s OR v.identificacion LIKE %s OR v.empresa LIKE %s)"
             params.extend([f'%{buscar}%', f'%{buscar}%', f'%{buscar}%'])
         
-        query += " ORDER BY v.fecha_registro DESC"
+    # Ordenar por ID asc para mostrar 1,2,3... como solicita el usuario
+    query += " ORDER BY v.id ASC"
         
         cursor.execute(query, params)
         visitantes = cursor.fetchall()
